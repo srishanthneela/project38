@@ -1,0 +1,187 @@
+var trex_running,trex_collided,trex;
+var ground,invisibleGround,groundImg;
+var cloud,cloudimg,cloudGroup,spawnClouds;
+var Obstacls,Obstacles1Obstacles2,Obstacles3,Obstacles4,
+    Obstacles5,Obstacles,spawnObstacles,ObstaclesGroup;
+var count;
+//var PLAY = 1;
+//var END = 0;
+//var gameState = play;
+
+function preload(){
+trex_running=loadAnimation("trex1.png","trex3.png","trex4.png");
+trex_collided=loadImage("trex_collided.png");
+groundImg=loadImage("ground2.png");
+cloudimg=loadImage("cloudimg.png");
+}
+function setup() {
+  createCanvas(400, 400);
+ trex=createSprite(50,380,5,10); 
+ trex.addAnimation("running",trex_running);
+ trex.scale=0.5;
+ 
+  ground=createSprite(200,380,400,20);
+  ground.addImage("ground",groundImg);
+  ground.x = ground.width/2;
+  ground.velocityX=-5;
+    invisibleGround=createSprite(200,390,400,10);
+  invisibleGround.visible=false;
+  
+  count = 0;
+  
+  cloudsGroup = new Group ();
+}
+
+function draw() {
+  background(220);
+
+  textSize(18);
+  textFont("Georgia");
+  textStyle(BOLD);
+   
+  text("score:-"+count,300,50);
+  
+ // if(gameState === PLAY){
+  
+  if(keyDown("space")&&trex.y>359){
+     trex.velocityY=-12;
+ }
+  
+  trex.velocityY= trex.velocityY+0.8;
+  
+  if(ground.x<0){
+  ground.x=ground.width/2;
+
+  }
+    spawnClouds();
+ // }
+    
+  trex.collide(invisibleGround);
+  drawSprites();
+}
+
+function spawnClouds (){
+  if(frameCount % 60 === 0){
+ var cloud = createSprite(390,200,40,10);
+   cloud.addImage("cloudimg",cloudimg);
+    cloud.scale = 0.5;
+    cloud.y = Math.round(random(50,320));
+   cloud.velocityX = -7;
+    cloud.lifetime = 200;
+    cloud.depth = trex.depth;
+    trex.depth = trex.depth + 1;
+    cloudsGroup.add(cloud);
+}
+}
+
+/////
+var trex_running,trex_collided,trex;
+var ground,invisibleGround,groundImg;
+var cloud,cloudimg,cloudGroup,spawnClouds;
+var Obstacles,Obstacles1,Obstacles2,Obstacles3,Obstacles4,
+    Obstacles5,Obstacles,spawnObstacles,ObstaclesGroup;
+var score=0;
+
+function preload(){
+trex_running=loadAnimation("trex1.png","trex3.png","trex4.png");
+trex_collided=loadImage("trex_collided.png");
+  
+Obstacles1 = loadImage("obstacle1.png");
+Obstacles2 = loadImage("obstacle2.png");
+Obstacles3 = loadImage("obstacle3.png");
+Obstacles4 = loadImage("obstacle4.png");
+Obstacles5 = loadImage("obstacle5.png");
+Obstacles6 = loadImage("obstacle6.png");
+  
+groundImg=loadImage("ground2.png");
+  
+cloudimg=loadImage("cloud.png");
+}
+function setup() {
+  createCanvas(600, 200);
+ trex=createSprite(50,180,20,50); 
+ trex.addAnimation("running",trex_running);
+ trex.scale=0.5;
+ 
+  ground=createSprite(200,180,400,20);
+  ground.addImage("ground",groundImg);
+  ground.x = ground.width/2;
+  ground.velocityX=-5;
+    invisibleGround=createSprite(200,190,400,10);
+  invisibleGround.visible=false;
+  
+  cloudsGroup = new Group ();
+  ObstaclesGroup = new Group ();
+}
+
+function draw() {
+  background(0);
+
+  textSize(18);
+  textFont("Georgia");
+  textStyle(BOLD);
+   
+  text("score:-"+score,350,50);
+  score = score+Math.round(getFrameRate()/60);
+  
+  if(keyDown("space")&&trex.y>161){
+     trex.velocityY=-12;
+ }
+  console.log(trex.y);
+  
+  trex.velocityY= trex.velocityY+0.8;
+  
+  if(ground.x<0){
+  ground.x=ground.width/2;
+
+  }
+    spawnClouds();
+    spawnObstacles();
+  
+  trex.collide(invisibleGround);
+  drawSprites();
+}
+
+function spawnClouds (){
+  if(frameCount % 60 === 0){
+   cloud = createSprite(600,120,40,10);
+    cloud.y = Math.round(random(20,140));
+   cloud.addImage(cloudimg);
+    cloud.scale = 0.5;
+   cloud.velocityX = -7;
+    cloud.lifetime = 200;
+    cloud.depth = trex.depth;
+    trex.depth = trex.depth + 1;
+    cloudsGroup.add(cloud);
+}
+}
+
+function spawnObstacles(){
+  if(frameCount % 60 === 0){
+    Obstacles = createSprite(600,160,10,40);
+    Obstacles.velocityX = -6;
+    
+    //random Obstacles 
+   var rand = Math.round(random(1,6));
+   switch(rand){
+     case 1: Obstacles .addImage(Obstacles1);
+      break; 
+      case 2: Obstacles .addImage(Obstacles1);
+      break; 
+      case 3: Obstacles .addImage(Obstacles1);
+      break; 
+      case 4: Obstacles .addImage(Obstacles1);
+      break; 
+      case 5: Obstacles .addImage(Obstacles1);
+      break; 
+      case 6: Obstacles .addImage(Obstacles1);
+      break;
+      default:break;
+      
+   }
+  Obstacles.scale=0.5;
+  Obstacles.lifetime =100;
+  }
+}
+
+
